@@ -13,7 +13,7 @@ for k in file[0].index[1:]:
     qqq[k]=a
 qqq.index=[2011,2012,2013,2014,2015,2016,2017]
 
-qqq.to_excel("서울시공체시설통계_변환/Cummulative.xlsx")
+qqq.to_excel("서울시공체시설통계_변환/Cummulative_공체.xlsx")
 
 
 

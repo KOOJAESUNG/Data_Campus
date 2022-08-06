@@ -2,7 +2,7 @@ import pandas as pd
 from statsmodels.formula.api import ols
 
 dang=pd.read_excel("당뇨_회귀분석/class_by_gu_dang.xlsx",index_col="Unnamed: 0")
-public_sports=pd.read_excel("당뇨_회귀분석/Cummulative.xlsx",index_col="Unnamed: 0")
+public_sports=pd.read_excel("당뇨_회귀분석/Cummulative_공체.xlsx",index_col="Unnamed: 0")
 
 a=[]
 b=[]

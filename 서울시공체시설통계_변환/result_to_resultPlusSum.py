@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 for i in range(2011,2018):
     file_=pd.read_excel("result/"+str(i)+".xlsx",index_col=str(i))
     file_[file_>5]=1
