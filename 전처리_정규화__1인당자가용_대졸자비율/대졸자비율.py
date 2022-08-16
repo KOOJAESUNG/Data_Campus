@@ -1,15 +1,14 @@
 import pandas as pd
-from numpy import NaN
 
-univ=pd.read_excel("전처리_정규화__1인당자가용_대졸자비율/교육정도별+인구(6세+이상)_20220816214901.xlsx",index_col='자치구별(2)')
+univ=pd.read_excel("전처리_정규화__1인당자가용_대졸자비율/교육정도별+인구(6세+이상)_계.xlsx",index_col='자치구별(2)')
 univ.drop(columns=['자치구별(1)','교육정도별(1)','연령별(1)'],inplace=True)
 univ
-univ=univ.iloc[4:,:]
+univ=univ.loc['종로구':,'2020':]
 univ.index.name='2020'
 univ
 univ_sum=[]
-for i in range(2,univ['교육정도별(2)'].count(),3):
-    univ_sum.append(int(univ.iloc[i,1]+univ.iloc[i-1,1]+univ.iloc[i-2,1]))
+for i in range(2,univ['2020'].count(),3):
+    univ_sum.append(int(univ.iloc[i,]+univ.iloc[i-1,]+univ.iloc[i-2,]))
 len(univ_sum)
 
 gu=[]
