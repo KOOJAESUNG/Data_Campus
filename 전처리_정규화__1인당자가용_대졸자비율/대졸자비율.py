@@ -20,11 +20,13 @@ univ_gu.columns=['서울']
 univ_gu.index.name='2020'
 univ_gu
 
-people=pd.read_excel("전처리_정규화__1인당자가용_대졸자비율/주민등록인구(연령별_동별)_25~29세.xlsx",index_col='동별(2)')
-people=pd.DataFrame(people.loc['종로구':,'2020'])
+people=pd.read_excel("전처리_정규화__1인당자가용_대졸자비율/주민등록인구(연령별_동별)_20220816173236.xlsx",index_col='동별(2)')
+people.drop(index=['동별(2)','소계'],columns=['동별(1)','항목'],inplace=True)
 people.index.name='2020'
 people.columns=['서울']
 people_gu=people.astype(int)
+
 univ_per_people=univ_gu/people_gu
 univ_per_people['정규화']=(univ_per_people-univ_per_people.min())/(univ_per_people.max()-univ_per_people.min())
 univ_per_people.to_excel("전처리_정규화__1인당자가용_대졸자비율/대졸이상비율.xlsx")
+univ_per_people.sort_values('정규화')
