@@ -1,0 +1,48 @@
+import os
+os.chdir(r'원하는 디렉토리')
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 수요보다 더 지어진 자치구
+over = ['금천구', '서대문구', '마포구', '중구', '구로구', '송파구', '강남구', '광진구', '서초구', '양천구', '영등포구', '용산구', '은평구', '종로구'] 
+
+### 비만율 비교 ###
+obesity = pd.read_excel('시·군·구별_비만율_자가보고__20220804005543.xlsx')
+obesity = obesity.iloc[2:27,:].reset_index(drop = True)
+obesity_raw = pd.DataFrame()
+obesity_raw['지역'] = obesity['시군구별(2)']
+obesity_raw['2020'] = obesity['2020.1']
+# 수요별로 자치구 나누기
+obesity_over = []
+obesity_less = []
+obesity_raw['수요'] = obesity_raw['지역'].copy()
+
+for i in range(len(obesity_raw)):
+  if obesity_raw['지역'][i] in over:
+    obesity_raw['수요'][i] = '충족'
+    obesity_over.append(obesity_raw.iloc[i,:])
+  else:
+    obesity_raw['수요'][i] = '부족'
+    obesity_less.append(obesity_raw.iloc[i,:])
+
+obesity_over = pd.DataFrame(obesity_over).reset_index(drop = True)
+obesity_less = pd.DataFrame(obesity_less).reset_index(drop = True)
+
+# 두 그룹의 분산과 평균 동일성 검정
+levene = stats.levene(obesity_over['2020'], obesity_less['2020'])
+print("Obesity LeveneResult(statistic = %3.f, pvalue = %.3f)" % levene)
+   # 분산이 동일하다 나왔기에 equal_var = True로 써줌(만약 다르다면 False)
+obesity_ttest = stats.ttest_ind(obesity_over['2020'], obesity_less['2020'], equal_var = True)
+print("Assuming equal variances(Obesity) : t-value = %.3f, p-value = %.3f)" % obesity_ttest)
+
+# box plot 를 이용한 시각화
+plt.figure(figsize = (6, 6))
+sns.boxplot(x = '수요', y = '2020', data = obesity_raw)
+plt.title('비만율 비교')
+plt.text(-0.47, 33.0, 'p-value: %.3f'% obesity_ttest[1], fontsize = 15)
+plt.ylabel('비만율(%)')
+plt.show()
+
+### 고혈압과 당뇨병, 기타 대사위험군에 대해서도 동일하게 진행 ###
