@@ -55,7 +55,13 @@ x_yet=coordinate_yet['경도']
 
 # 지도 띄우기
 
-m = folium.Map(location=[37.55, 126.98], zoom_start=11.3)
+m = folium.Map(location=[37.55, 126.98], zoom_start=11.3,tiles = 'cartodbpositron')
+
+import json
+
+with open('./skorea_provinces_geo.json' , mode='rt', encoding='utf-8') as f:
+   geo = json.loads(f.read())
+   f.close()
 
 coords_com = []
 coords_yet=[]
